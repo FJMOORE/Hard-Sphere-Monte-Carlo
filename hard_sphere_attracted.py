@@ -26,16 +26,16 @@ def get_distance_in_pbc(p1, p2, box):
 
 
 def check_overlap(p1, p2, diameter, box):
-
     """
-    We check the periodic boundary condition (PBC), consider the condition below.
+    We check the periodic boundary condition (PBC)
+    Consider the condition below.
     The measured distance is d0, but the actural distance should be d1.
     Because p2 is identical with p3. (use monospace font to see the figure)
 
     ┌ ─ ─ ─ ─ ─ ─┌────────────┐
          p3  ◌   │○ p1    ○ p2│
     └ ─ ─ ─ ─│─ ─└┬───────┬───┘
-             │ d1 │  d0   │    
+             │ d1 │  d0   │
 
     Figure 1. Example of PBC in 1D
 
@@ -56,21 +56,21 @@ def check_overlap(p1, p2, diameter, box):
         return True
 
 
-def get_energy_square_well(p1, system, depth, width, box):
+def get_energy_square_well(p1, system, depth, width, diameter, box):
     """
     this function calculating the energy of one particle inside a system
     with square well potential
 
     The stuff below are some testing code, don't worry about it
     >>> system = [[0, 0], [1, 1], [2, 2], [3, 3]]
-    >>> get_energy_square_well(p1=system[0], system=system, depth=-1, width=2, box=[4, 4])
+    >>> get_energy_square_well(system[0], system, -1, 2, [4, 4])
     -2
     """
     energy = 0
     for p2 in system:
         if p1 is not p2:
             distance = get_distance_in_pbc(p1, p2, box)
-            if distance <= width:
+            if distance <= width + diameter:
                 energy = energy + depth
     return energy
 
@@ -84,11 +84,11 @@ diameter = 1
 volume_fraction = 0.1
 
 # parameter about the square well
-potential_depth = -4
-potential_width = 0.1 * diameter
+depth = -4
+width = 0.1 * diameter
 
 # parameters about the simulation
-total_steps = 100
+total_steps = 500
 
 # rewrite file
 output_file = open('positions_hard_sphere_attracted.xyz', 'w')
@@ -103,7 +103,7 @@ for i in range(0, unit_repeat):
             y.append(j * lattice_constant)
             z.append(k * lattice_constant)
 
-# Rescale the box/coordinates so we achieve the correct volume fraction/density.
+# Rescale the box/coordinates for correct volume fraction/density.
 atoms_per_cell = 1
 atom_volume = np.pi * diameter ** 3 / 6
 initial_volume_fraction = atoms_per_cell * atom_volume  # / unit volume (=1)
@@ -168,14 +168,13 @@ for t in range(0, total_steps):
             # Confirm movements
             old_system = np.vstack([x, y, z]).T  # ((x1, x2, ..), (y1, y2, ..), (z1, z2, ..)) --> ((x1, y1, z1), (x2, y2, z2) ...)
 
-            new_system = old_system.copy()
-            np.delete(new_system, i)
-            np.insert(new_system, i, np.array(p1))
+            new_system = np.copy(old_system)
+            new_system = np.delete(new_system, i, axis=0)
+            new_system = np.insert(new_system, i, np.array(p1), axis=0)
 
-            old_energy = get_energy_square_well(old_system[i], old_system, potential_depth, potential_width, box)
-            new_energy = get_energy_square_well(new_system[i], new_system, potential_depth, potential_width, box)
+            old_energy = get_energy_square_well(old_system[i], old_system, depth, width, diameter, box)
+            new_energy = get_energy_square_well(new_system[i], new_system, depth, width, diameter, box)
             delta = new_energy - old_energy
-
             accept_probability = np.exp(-1 * delta)
 
             # if probability is HIGH, a random number is less likely to be higher than it
