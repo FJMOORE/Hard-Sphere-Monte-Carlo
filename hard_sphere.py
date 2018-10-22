@@ -23,30 +23,30 @@ def check_overlap(p1, p2, diameter, box):
     Figure 1. Example of PBC in 1D
 
     The stuff below are some testing code, don't worry about it
-    >>> check_overlap([0, 0], [2.5, 2.5], 2, [5, 5])
+    >>> check_overlap([1, 1], [1.5, 1.5], 2, [5, 5])
+    True
+    >>> check_overlap([1, 1], [4.8, 4.8], 2, [5, 5])
+    True
+    >>> check_overlap([1, 1], [3, 3], 2, [5, 5])
     False
-    >>> check_overlap([0, 0], [4, 4], 2, [5, 5])
+    >>> check_overlap([1, 1, 1], [5, 5, 5], 2, [5, 5, 5])
     True
     """
-    p3 = []
+
     dimension = len(p1)
+    distance_nd = []
     for d in range(dimension):
-        if (p2[d] - p1[d]) > (box[d] / 2):
-            p3.append(p2[d] - box[d])
+        distance_1d = abs(p2[d] - p1[d])
+        if distance_1d > (box[d] / 2):
+            distance_nd.append((box[d] - distance_1d) ** 2)
         else:
-            p3.append(p2[d])
+            distance_nd.append(distance_1d ** 2)
+    distance = sum(distance_nd) ** 0.5
 
-    # calculate distance between p3 and p1
-    distance = 0
-    for d in range(dimension):
-        distance += (p3[d] - p1[d]) ** 2
-    distance = distance ** 0.5
-
-    if distance >= diameter:
+    if distance > diameter:
         return False  # not overlap
     else:
         return True
-
 
 # Initial parameters
 unit_repeat = 5  # number of unit cells per dimension
