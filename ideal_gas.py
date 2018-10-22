@@ -51,8 +51,8 @@ for t in range(0, total_steps):
             # xyz file is a file format to store 3D position
             # the general format is:
             # PARTICLE_TYPE  X  Y  Z
-            # here we just call our random gas particles "1"
-            f.write('1' + '\t' + str(x[i]) + '\t' + str(y[i]) + '\t' + str(z[i]) + '\n')
+            # here we just call our random gas particles "G"
+            f.write('G' + '\t' + str(x[i]) + '\t' + str(y[i]) + '\t' + str(z[i]) + '\n')
 
     for i in range(0, particle_number):
         # Trial Move
