@@ -1,4 +1,5 @@
 .*
 *.pyc
+*.xyz
 __pycache__
 !.gitignore
