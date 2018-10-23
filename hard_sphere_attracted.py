@@ -88,7 +88,7 @@ depth = -4
 width = 0.1 * diameter
 
 # parameters about the simulation
-total_steps = 500
+total_steps = 100
 
 # rewrite file
 output_file = open('positions_hard_sphere_attracted.xyz', 'w')
