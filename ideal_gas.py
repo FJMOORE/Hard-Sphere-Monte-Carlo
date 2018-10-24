@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Ideal gas: This script creates a lattice of non-interacting particles
 to introduce the students to periodic boundary conditions.

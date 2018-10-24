@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Hard Sphere: This script creates a lattice of particles that won't overlap
 You can easily tell the difference between random gas and hard spheres from the g(r)

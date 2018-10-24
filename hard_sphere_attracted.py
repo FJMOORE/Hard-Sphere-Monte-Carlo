@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Hard Sphere: This script creates a lattice of particles that won't overlap and attracting each other
 The attraction is a square well potential.
