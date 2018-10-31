@@ -5,7 +5,7 @@ The attraction is a square well potential, different particles have different in
 You can see the formation of bi-gel after open the .xyz file in Ovito
 You can easily see the attraction from the g(r)
 The python version of the code may not be fast enough to see the equilibriumed structure
-Please contack Yushi (yushi.yang@bristol.ac.uk) for a faster C++ version (written by Paddy Royall)
+Please contact Yushi (yushi.yang@bristol.ac.uk) for a faster C++ version (written by Paddy Royall)
 (If you are interested in the system)
 """
 import random as random
