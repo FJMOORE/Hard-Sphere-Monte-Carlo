@@ -57,7 +57,7 @@ def check_overlap(p1, p2, diameter, box):
         return True
 
 
-def get_energy_square_well(p1, system, depth, width, diameter, box):
+def get_energy(i, system, depth, width, diameter, box):
     """
     this function calculating the energy of one particle inside a system
     with square well potential
@@ -68,8 +68,9 @@ def get_energy_square_well(p1, system, depth, width, diameter, box):
     -2
     """
     energy = 0
-    for p2 in system:
-        if p1 is not p2:
+    p1 = system[i]
+    for j, p2 in enumerate(system):
+        if i != j:
             distance = get_distance_in_pbc(p1, p2, box)
             if distance <= width + diameter:
                 energy = energy + depth
@@ -173,8 +174,8 @@ for t in range(0, total_steps):
             new_system = np.delete(new_system, i, axis=0)
             new_system = np.insert(new_system, i, np.array(p1), axis=0)
 
-            old_energy = get_energy_square_well(old_system[i], old_system, depth, width, diameter, box)
-            new_energy = get_energy_square_well(new_system[i], new_system, depth, width, diameter, box)
+            old_energy = get_energy(i, old_system, depth, width, diameter, box)
+            new_energy = get_energy(i, new_system, depth, width, diameter, box)
             delta = new_energy - old_energy
             accept_probability = np.exp(-1 * delta)
 
