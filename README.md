@@ -1,4 +1,4 @@
-# Hard-Sphere-Monte-Carlo
+# Hard_Sphere_Monte_Carlo
 
 ## Introduction
 
