@@ -4,3 +4,6 @@
 *.ovito
 __pycache__
 !.gitignore
+**/tags
+**/*.pdf
+**/*.svg
